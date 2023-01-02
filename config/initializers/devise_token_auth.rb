@@ -60,7 +60,7 @@ DeviseTokenAuth.setup do |config|
   # devise confirmable module. If you want to use devise confirmable module and
   # send email, set it to true. (This is a setting for compatibility)
   config.send_confirmation_email = true
-  config.default_confirm_success_url = 'http://localhost:4200'
+  config.default_confirm_success_url = 'https://transactions-v2.afetiveau.com'
   config.change_headers_on_each_request = false
   # config.check_current_password_before_update = true
 end
