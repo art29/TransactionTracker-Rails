@@ -37,6 +37,10 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem 'devise_token_auth'
 gem 'capistrano', '~> 3.17', '>= 3.17.1'
+gem "capistrano-rails", "~> 1.6.2"
+gem "capistrano-bundler"
+gem "capistrano-passenger", ">= 0.2.1"
+gem "capistrano-rbenv", "~> 2.1"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

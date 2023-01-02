@@ -79,6 +79,16 @@ GEM
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
+    capistrano-bundler (2.1.0)
+      capistrano (~> 3.1)
+    capistrano-passenger (0.2.1)
+      capistrano (~> 3.0)
+    capistrano-rails (1.6.2)
+      capistrano (~> 3.1)
+      capistrano-bundler (>= 1.1, < 3)
+    capistrano-rbenv (2.2.0)
+      capistrano (~> 3.1)
+      sshkit (~> 1.3)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     date (3.3.3)
@@ -133,6 +143,8 @@ GEM
       net-protocol
     net-ssh (7.0.1)
     nio4r (2.5.8)
+    nokogiri (1.13.10-aarch64-linux)
+      racc (~> 1.4)
     nokogiri (1.13.10-arm64-darwin)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -193,11 +205,16 @@ GEM
     zeitwerk (2.6.6)
 
 PLATFORMS
+  aarch64-linux
   arm64-darwin-22
 
 DEPENDENCIES
   bootsnap
   capistrano (~> 3.17, >= 3.17.1)
+  capistrano-bundler
+  capistrano-passenger (>= 0.2.1)
+  capistrano-rails (~> 1.6.2)
+  capistrano-rbenv (~> 2.1)
   debug
   devise_token_auth
   letter_opener
