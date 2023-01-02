@@ -20,7 +20,6 @@ require "capistrano/rbenv"
 require 'capistrano/bundler'
 require 'capistrano/rails/migrations'
 require "capistrano/passenger"
-require "whenever/capistrano"
 #
 # For documentation on these, see for example:
 #
