@@ -1,24 +1,20 @@
-# README
+# Transactions Rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+An Open-Source transaction tracker. This can be used to track your spending per categories, month by month or year by year easily. It also gives you access to charts to see how your spending habits look.
 
-Things you may want to cover:
+This part is only the back-end part. To see the Angular front-end [click here](https://github.com/art29/TransactionTracker-Angular).
 
-* Ruby version
+## Tech
+- Rails 7 with Postgres
+- Devise Token Auth for Authentication
+- Capistrano for deployment
 
-* System dependencies
+## Run for Dev
+1. Make sure Ruby & Postgres is installed
+2. Install packages with `bundle install`
+3. Setup the DB with `rails db:create` and `rails db:migrate` (While making sure the credentials match your own DB settings)
+4. Launch App with `rails s`
+5. The API is available at [http://localhost:3000/api/v1](http://localhost:3000/api/v1)
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Contribute
+Feel free to contribute by making PRs or opening issues if you find any bugs!
