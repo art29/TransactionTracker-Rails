@@ -1,6 +1,6 @@
 # Make sure it matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.1.2
-FROM --platform=linux/arm64/v8 ruby:$RUBY_VERSION
+FROM ruby:$RUBY_VERSION
 
 # Install libvips for Active Storage preview support
 RUN apt-get update -qq && \
