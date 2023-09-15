@@ -16,7 +16,7 @@ services:
       SMTP_FROM: ${SMTP_FROM}
       SMTP_EMAIL_HOST: ${SMTP_EMAIL_HOST}
     ports:
-      - "80:3000"
+      - "3001:3000"
     depends_on:
       - db
     restart: always
