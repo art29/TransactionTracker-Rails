@@ -1,7 +1,7 @@
 version: "1"
 services:
   web:
-    image: your-dockerhub-username/myapp:latest
+    image: ghcr.io/art29/transaction-tracker:latest
     environment:
       RAILS_ENV: ${RAILS_ENV}
       DATABASE_PORT: ${DATABASE_PORT}
