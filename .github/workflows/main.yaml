@@ -37,6 +37,6 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: connect and pull
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git pull && echo $GITHUB_PERSONAL_ACCESS_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin && docker compose pull && docker compose up -d && exit"
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sh ${{ secrets.DEPLOY_SCRIPT }}"
       - name: cleanup
         run: rm -rf ~/.ssh
