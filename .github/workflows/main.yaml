@@ -29,9 +29,9 @@ jobs:
           password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           registry: ghcr.io
       - name: Build and Push Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
-          tags: ${{ github.actor }}/transaction-tracker:latest
+          tags: ghcr.io/${{ github.actor }}/transaction-tracker:latest
           platforms: linux/amd64,linux/arm64/v8
           push: true
   deploy:
