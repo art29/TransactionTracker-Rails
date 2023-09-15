@@ -1,4 +1,4 @@
-name: Deploy with Capistrano
+name: Build Docker & Deploy
 
 on:
   push:
@@ -7,22 +7,36 @@ on:
   # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.actor }}/transaction-tracker:latest
+
 jobs:
-  deploy:
+  publish:
+    name: publish image
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - name: Deploy Master
-        env:
-          DEPLOY_ENC_KEY: ${{ secrets.DEPLOY_ENC_KEY }}
+      - uses: actions/checkout@v3
+      - name: Login
         run: |
-          openssl enc -d -aes-256-cbc -md sha512 -salt -in config/deploy_id_rsa_enc -out config/deploy_id_rsa -k $DEPLOY_ENC_KEY -a -pbkdf2
-          chmod 600 config/deploy_id_rsa
-          eval "$(ssh-agent -s)"
-          ssh-add config/deploy_id_rsa
-          gem install capistrano
-          bundle exec cap production deploy
+          echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build and Publish Backend
+        run: |
+          docker build . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+  deploy:
+    needs: publish
+    name: deploy image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: install ssh keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+      - name: connect and pull
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
+      - name: cleanup
+        run: rm -rf ~/.ssh

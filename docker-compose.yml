@@ -1,0 +1,35 @@
+version: "1"
+services:
+  web:
+    image: your-dockerhub-username/myapp:latest
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_HOST: db
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+      SMTP_EMAIL_HOST: ${SMTP_EMAIL_HOST}
+    ports:
+      - "80:3000"
+    depends_on:
+      - db
+    restart: always
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    restart: always
+volumes:
+  db_data:

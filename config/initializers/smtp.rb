@@ -1,13 +1,10 @@
 Rails.application.configure do
-  smtp_credentials = Rails.application.credentials[Rails.env.to_sym][:smtp]
-
-  break if smtp_credentials.nil?
 
   config.action_mailer.smtp_settings = {
-    address: smtp_credentials[:address],
-    port: smtp_credentials[:port],
-    user_name: smtp_credentials[:user_name],
-    password: smtp_credentials[:password],
+    address: ENV.fetch("SMTP_HOST"),
+    port: ENV.fetch("SMTP_PORT"),
+    user_name: ENV.fetch("SMTP_USER"),
+    password: ENV.fetch("SMTP_PASSWORD"),
     authentication: :plain,
     enable_starttls_auto: true
   }
