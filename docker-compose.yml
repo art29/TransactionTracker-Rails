@@ -3,6 +3,7 @@ services:
   web:
     image: ghcr.io/art29/transaction-tracker:latest
     environment:
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       RAILS_ENV: ${RAILS_ENV}
       DATABASE_PORT: ${DATABASE_PORT}
       DATABASE_HOST: db
