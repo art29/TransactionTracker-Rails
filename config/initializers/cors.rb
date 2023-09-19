@@ -1,6 +1,6 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins  'api.transactions.afetiveau.com', 'localhost:3000',  'localhost:4200', 'transactions.afetiveau.com', 'transactions-v2.afetiveau.com'
+    origins  'api.transactions.afetiveau.com', 'localhost:3000',  'localhost:4200', 'transactions.afetiveau.com', 'transactions-v2.afetiveau.com', 'transactions.hdh-analytics.com', 'transactions-api.hdh-analytics.com'
     resource '*',
              headers: :any,
              expose: %w[access-token expiry token-type uid client],
