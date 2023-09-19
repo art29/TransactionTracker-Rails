@@ -88,5 +88,5 @@ Rails.application.configure do
 
   Rails.application.config.hosts << "api.transactions.afetiveau.com"
   Rails.application.config.hosts << "transactions.afetiveau.com"
-  Rails.application.config.hosts << "transactions-v2.afetiveau.com"
+  Rails.application.config.hosts << "transactions-api.hdh-analytics.com"
 end
