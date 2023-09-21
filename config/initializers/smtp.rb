@@ -9,6 +9,6 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-  config.action_mailer.default_options = { from: 'transactions@afetiveau.com' }
-  config.action_mailer.default_url_options = { host: "api.transactions.afetiveau.com" }
+  config.action_mailer.default_options = { from: ENV.fetch("SMTP_FROM") }
+  config.action_mailer.default_url_options = { host: ENV.fetch("API_URL") }
 end
