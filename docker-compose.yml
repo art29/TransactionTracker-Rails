@@ -15,7 +15,8 @@ services:
       SMTP_USER: ${SMTP_USER}
       SMTP_PASSWORD: ${SMTP_PASSWORD}
       SMTP_FROM: ${SMTP_FROM}
-      SMTP_EMAIL_HOST: ${SMTP_EMAIL_HOST}
+      API_URL: ${API_URL}
+      FRONT_END_URL: ${FRONT_END_URL}
     ports:
       - "3001:3000"
     depends_on:

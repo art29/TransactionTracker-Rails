@@ -14,8 +14,15 @@ env:
 jobs:
   publish:
     name: publish image
-    runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, self-hosted ]
+        include:
+          - os: ubuntu-latest
+            arch: linux/amd64
+          - os: self-hosted
+            arch: linux/arm64/v8
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up QEMU
@@ -32,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           tags: ghcr.io/${{ github.actor }}/transaction-tracker:latest
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ matrix.arch }}
           push: true
   deploy:
     needs: publish
