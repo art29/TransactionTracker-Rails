@@ -60,8 +60,8 @@ jobs:
       - name: Create and push manifest images
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
-          inputs: ${{ github.actor }}/transaction-tracker:latest
-          images: ${{ github.actor }}/transaction-tracker:latest-amd64,transaction-tracker:latest-arm64
+          inputs: ghcr.io/${{ github.actor }}/transaction-tracker:latest
+          images: ghcr.io/${{ github.actor }}/transaction-tracker:latest-amd64,ghcr.io/${{ github.actor }}/transaction-tracker:latest-arm64
           push: true
   deploy:
     needs: [publish, publish-manifest]
