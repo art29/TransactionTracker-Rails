@@ -57,15 +57,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           registry: ghcr.io
-      - name: Build manifest
-        run: |
-          docker manifest create \
-          ${{ github.actor }}/transaction-tracker:latest \
-          --amend ${{ github.actor }}/transaction-tracker:latest-amd64 \
-          --amend ${{ github.actor }}/transaction-tracker:latest-arm64
-      - name: Push Manifest
-        run: |
-          docker manifest push ${{ github.actor }}/transaction-tracker:latest
+      - name: Create and push manifest images
+        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        with:
+          inputs: ${{ github.actor }}/transaction-tracker:latest
+          images: ${{ github.actor }}/transaction-tracker:latest-amd64,transaction-tracker:latest-arm64
+          push: true
   deploy:
     needs: [publish, publish-manifest]
     name: deploy image
