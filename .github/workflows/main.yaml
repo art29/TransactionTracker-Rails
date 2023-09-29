@@ -42,6 +42,7 @@ jobs:
         with:
           tags: ghcr.io/${{ github.actor }}/transaction-tracker:latest-${{ matrix.public-arch }}
           platforms: ${{ matrix.arch }}
+          provenance: false
           push: true
   publish-manifest:
     name: publish image manifest
