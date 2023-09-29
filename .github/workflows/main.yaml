@@ -20,8 +20,10 @@ jobs:
         include:
           - os: ubuntu-latest
             arch: linux/amd64
+            public-arch: amd64
           - os: self-hosted
             arch: linux/arm64/v8
+            public-arch: arm64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -38,7 +40,7 @@ jobs:
       - name: Build and Push Image
         uses: docker/build-push-action@v5
         with:
-          tags: ghcr.io/${{ github.actor }}/transaction-tracker:latest-${{ matrix.arch }}
+          tags: ghcr.io/${{ github.actor }}/transaction-tracker:latest-${{ matrix.public-arch }}
           platforms: ${{ matrix.arch }}
           push: true
   publish-manifest:
@@ -57,8 +59,8 @@ jobs:
         run: |
           docker manifest create \
           ${{ github.actor }}/transaction-tracker:latest \
-          --amend ${{ github.actor }}/transaction-tracker:latest-linux/amd64 \
-          --amend ${{ github.actor }}/transaction-tracker:latest-linux/arm64/v8
+          --amend ${{ github.actor }}/transaction-tracker:latest-amd64 \
+          --amend ${{ github.actor }}/transaction-tracker:latest-arm64
       - name: Push Manifest
         run: |
           docker manifest push ${{ github.actor }}/transaction-tracker:latest
