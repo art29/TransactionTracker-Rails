@@ -59,17 +59,21 @@ class Api::V1::TransactionsController < ApplicationController
       date = Date.new(params[:year].to_i)
       @transactions = Transaction.all.where(user: current_api_v1_user).where(ignore_from_calculations: false).where(date: date.beginning_of_year..date.end_of_year)
 
-      if params[:category_id].present?
-        @transactions = @transactions.where(category_id: params[:category_id])
+      if params[:category_ids].present?
+        @transactions = @transactions.where(category_id: params[:category_ids])
       end
 
       all_categories = Category.where(user: current_api_v1_user)
 
-      if params[:category_id].present?
-        datasets = [{
-                      label: Category.find(params[:category_id]).name,
-                      data: []
-                    }]
+      if params[:category_ids].present?
+        datasets = []
+
+        params[:category_ids].each do |cat|
+          datasets << {
+            label: Category.find(cat).name,
+            data: []
+          }
+        end
       else
         datasets = [{
                       label: "Expenses",
@@ -81,14 +85,16 @@ class Api::V1::TransactionsController < ApplicationController
       end
 
       (1..12).each do |m|
-        monthDate = Date.new(params[:year].to_i, m)
-        monthTransactions = @transactions.where(date: monthDate.beginning_of_month..monthDate.end_of_month)
+        month_date = Date.new(params[:year].to_i, m)
+        month_transactions = @transactions.where(date: month_date.beginning_of_month..month_date.end_of_month)
 
-        if params[:category_id].present? && params[:category_id] != "0"
-          datasets[0][:data] << monthTransactions.sum(:final_price)
+        if params[:category_ids].present? && params[:category_ids].length > 0 && params[:category_ids][0] != "0"
+          params[:category_ids].each_with_index do |cat, i|
+            datasets[i][:data] << month_transactions.where(category_id: cat).sum(:final_price)
+          end
         else
-          datasets[0][:data] << monthTransactions.where(category: all_categories.where(income: "expense")).sum(:final_price)
-          datasets[1][:data] << monthTransactions.where(category: all_categories.where(income: "income")).sum(:final_price)
+          datasets[0][:data] << month_transactions.where(category: all_categories.where(income: "expense")).sum(:final_price)
+          datasets[1][:data] << month_transactions.where(category: all_categories.where(income: "income")).sum(:final_price)
         end
       end
 
