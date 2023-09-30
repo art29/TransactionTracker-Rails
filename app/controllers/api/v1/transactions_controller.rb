@@ -14,15 +14,17 @@ class Api::V1::TransactionsController < ApplicationController
   def month
     if params[:year].present?
 
+      year_date = Date.new(params[:year].to_i)
+      categories_used_year = Transaction.all.where(user: current_api_v1_user).where(date: year_date.beginning_of_year..year_date.end_of_year).pluck(:category_id)
+
       if params[:month].present?
         date = Date.new(params[:year].to_i, params[:month].to_i)
         @transactions = Transaction.all.where(user: current_api_v1_user).where(date: date.beginning_of_month..date.end_of_month)
       else
-        date = Date.new(params[:year].to_i)
-        @transactions = Transaction.all.where(user: current_api_v1_user).where(date: date.beginning_of_year..date.end_of_year)
+        @transactions = Transaction.all.where(user: current_api_v1_user).where(date: year_date.beginning_of_year..year_date.end_of_year)
       end
 
-      all_categories = Category.where(user: current_api_v1_user)
+      all_categories = Category.where(user: current_api_v1_user, id: categories_used_year)
       total_income = @transactions.where(category: all_categories.where(income: "income")).where(ignore_from_calculations: false).sum(:final_price)
       total_expenses = @transactions.where(category: all_categories.where(income: "expense")).where(ignore_from_calculations: false).sum(:final_price)
 
