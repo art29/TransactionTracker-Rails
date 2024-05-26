@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         collection do
           get :month
           get :charts
+          get :search
           post :import
         end
       end

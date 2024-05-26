@@ -128,6 +128,10 @@ class Api::V1::TransactionsController < ApplicationController
     end
   end
 
+  def search
+    render json: Transaction.all.select('DISTINCT ON(name) name, category_id, created_at').where(user: current_api_v1_user).where('LOWER(name) LIKE ?', "%#{params[:query].downcase}%").order(:name, created_at: :desc).as_json(only: [:name, :category_id])
+  end
+
   # GET /api/v1/transactions/1
   def show
     render json: @transaction
